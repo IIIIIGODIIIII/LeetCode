@@ -15,6 +15,7 @@
         "array": "cpp",
         "forward_list": "cpp",
         "initializer_list": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "map": "cpp"
     }
 }
