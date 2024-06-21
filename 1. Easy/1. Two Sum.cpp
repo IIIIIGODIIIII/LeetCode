@@ -1,22 +1,29 @@
-class Solution {
-public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        vector<int> v1;
-        vector<int>::iterator i1,i2,i3; 
-        i3 = nums.begin();
-        for(i1=nums.begin();i1!=nums.end();i1++)
-        {
-            for(i2=nums.begin();i2!=nums.end();i2++)
-                if(*i1+*i2==target && i1!=i2)
-                {
-                    goto PUSH;
-                }
+#include <iostream>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+    int nums[] = {1,1,1,1,1,4,1,1,1,1,1,7,1,1,1,1,1};
+    int target = 11;
+    vector<int> result;
+    map<int, int> m;
+
+    int n = sizeof(nums) / sizeof(nums[0]);
+
+    for (int i = 0; i < n; i++) {
+        int diff = target - nums[i];
+
+        if (m.find(diff) != m.end()) {
+            result.push_back(m[diff]);
+            result.push_back(i);
+            break; 
         }
-        
-        PUSH:
-                v1.push_back(i2-i3);
-                v1.push_back(i1-i3);
-        
-        return v1;
+        m[nums[i]] = i;
     }
-};
+
+    for(int i = 0; i < result.size(); i++)
+        cout << result[i] << endl;
+
+    return 0;
+}
