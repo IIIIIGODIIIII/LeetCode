@@ -22,7 +22,7 @@ int main()
     ListNode* last = head, *current, *newHead;
 
     if(head == NULL){
-        cout<<"Nothin in head"<<endl;
+        cout<<"Nothing in head"<<endl;
         exit(0);
     }
 
