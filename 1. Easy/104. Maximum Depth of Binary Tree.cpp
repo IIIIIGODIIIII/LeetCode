@@ -23,7 +23,6 @@ int main()
     int res;
 
     res = maxDepth(root);
-    //printBinaryTree(root);
     cout<<res;
     return 0;
 }
