@@ -11,7 +11,7 @@ int main()
     
     result = passThePillow(n, time);
     cout<<result;
-    
+                    
    return 0;
 }
 
