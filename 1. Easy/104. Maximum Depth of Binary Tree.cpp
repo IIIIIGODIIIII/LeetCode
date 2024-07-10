@@ -31,7 +31,7 @@ int maxDepth(TreeNode* root){
     if(root == NULL)
         return 0;
     
-    // 1 + max(DFS(left sub-tree), DFS(right))
+    // 1 + max(DFS(left sub-tree), DFS(right sub-tree))
     return 1 + max(maxDepth(root->left), maxDepth(root->right));
 }
 
