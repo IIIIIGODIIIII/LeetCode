@@ -38,13 +38,14 @@ TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder){
     auto it = find(inorder.begin(), inorder.end(), preorder[0]);
     int mid = distance(inorder.begin(), it);
 
-    // Create left and right subtrees recursively
+    // Creating sublists which will be passed to BuildTree recursively so as to build the left and right subtrees
     vector<int> left_preorder(preorder.begin() + 1, preorder.begin() + mid + 1);
     vector<int> left_inorder(inorder.begin(), inorder.begin() + mid);
 
     vector<int> right_preorder(preorder.begin() + mid + 1, preorder.end());
     vector<int> right_inorder(inorder.begin() + mid + 1, inorder.end());
 
+    // Create left and right subtrees recursively
     root->left = buildTree(left_preorder, left_inorder);
     root->right = buildTree(right_preorder, right_inorder);
 
