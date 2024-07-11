@@ -9,10 +9,9 @@ struct Node {
     Node *left;
     Node *right;
     Node *next;
-    Node() : val(0), left(nullptr), right(nullptr), next(nullptr) {}
-    Node(int _val) : val(_val), left(nullptr), right(nullptr), next(nullptr) {}
-    Node(int _val, Node *_left, Node *_right, Node *_next)
-        : val(_val), left(_left), right(_right), next(_next) {}
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+    Node(int _val, Node *_left, Node *_right, Node *_next) : val(_val), left(_left), right(_right), next(_next) {}
 };
 
 Node* createBinaryTree(const vector<int>& values);
@@ -33,14 +32,14 @@ int main() {
 
 Node* connect(Node* root) {
     if (!root) 
-        return nullptr;
+        return NULL;
 
-    Node* levelStart = root;    // Start of the current level.
+    Node* levelStart = root;            // Start of the current level.
 
     while (levelStart) {
         Node* cur = levelStart;         // Current node in the current level.
-        Node* nextLevelStart = nullptr; // Start of the next level.
-        Node* prev = nullptr;           // Previous node in the next level.
+        Node* nextLevelStart = NULL;    // Start of the next level.
+        Node* prev = NULL;              // Previous node in the next level.
 
         while (cur) {
             if (cur->left) {
@@ -59,7 +58,9 @@ Node* connect(Node* root) {
                 }
                 prev = cur->right;
             }
-            cur = cur->next; // Move to the next node in the current level.
+            
+            // Move to the next node in the current level.
+            cur = cur->next; 
         }
 
         // Move to the next level.
@@ -71,7 +72,7 @@ Node* connect(Node* root) {
 
 // Helper function to create a binary tree from a vector of values
 Node* createBinaryTree(const vector<int>& values) {
-    if (values.empty() || values[0] == -1) return nullptr;
+    if (values.empty() || values[0] == -1) return NULL;
 
     Node* root = new Node(values[0]);
     queue<Node*> q;
@@ -102,7 +103,7 @@ void printTreeByNext(Node* root) {
     Node* level_start = root;
     while (level_start) {
         Node* current = level_start;
-        level_start = nullptr;
+        level_start = NULL;
         while (current) {
             cout << current->val << " ";
             if (!level_start) {
