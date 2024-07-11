@@ -94,5 +94,6 @@ void printBinaryTree(TreeNode* root){
             cout << "null ";
         }
     }
+    
     cout << endl;
 }
