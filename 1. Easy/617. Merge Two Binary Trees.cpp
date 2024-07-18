@@ -20,8 +20,8 @@ int main()
 {
     vector<int> list1 = {1,3,2,5}, list2 = {2,1,3,-1,4,-1,7};
     TreeNode *root1 = createBinaryTree(list1), *root2 = createBinaryTree(list2), *merged;
-    *merged = mergeTrees(root1, root2);
-
+    
+    merged = mergeTrees(root1, root2);
     printBinaryTree(merged);
    
    return 0;
@@ -35,7 +35,7 @@ TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2){
         return root1;
 
     TreeNode* merged = new TreeNode(root1->val + root2->val);
-    
+
     merged->left = mergeTrees(root1->left, root2->left);
     merged->right = mergeTrees(root1->right, root2->right);
 
