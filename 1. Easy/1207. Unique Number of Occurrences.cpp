@@ -20,7 +20,9 @@ bool uniqueOccurrences(vector<int>& arr) {
             count = 1;
         }
     }
-    occurrences.push_back(count); // Add the count of the last element
+
+    // Add the count of the last element
+    occurrences.push_back(count); 
 
     // Check for uniqueness in the occurrences array
     sort(occurrences.begin(), occurrences.end());
@@ -29,6 +31,7 @@ bool uniqueOccurrences(vector<int>& arr) {
             return false; // Not unique
         }
     }
+    
     return true; // Unique occurrences
 }
 
