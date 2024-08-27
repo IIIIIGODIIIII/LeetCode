@@ -14,34 +14,59 @@ struct TreeNode{
 
 TreeNode* createBinaryTree(const vector<int>& values);
 void printBinaryTree(TreeNode* root);
-bool isSameTree(TreeNode*, TreeNode*);
+vector<vector<int>> zigzagLevelOrder(TreeNode* root);
 
 int main()
 {
-    vector<int> tree1 = {1,2,3}, tree2 = {1,2,3};
-    TreeNode *p = createBinaryTree(tree1), *q = createBinaryTree(tree2);
-    bool result;
+    vector<int> list = {3,9,20,-1,-1,15,7};
+    TreeNode *root = createBinaryTree(list);
+    vector<vector<int>> result;
 
-    result = isSameTree(p,q);
-    cout<<result<<endl;
+    result = zigzagLevelOrder(root);
+
+    for(const auto& innerVec : result){  
+        for (int num : innerVec)    
+            cout << num << " ";         
+        cout << endl;  
+    }
+
    return 0;
 }
 
-bool isSameTree(TreeNode *p, TreeNode *q){
-    if(p == NULL && q == NULL)
-        return true;
-
-    // Either one of the node is not NULL
-    if(p == NULL || q == NULL)
-        return false;
-
-    if(p->val != q-> val)
-        return false;
+vector<vector<int>> zigzagLevelOrder(TreeNode* root){
+    vector<vector<int>> result;
+    if(root==NULL)
+        return result;
     
-    // If both trees are same then their will return statement will be like return True && True which gives out true otherwise
-    // in any other case the ouput will be false
-    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    queue<TreeNode*> nodesQueue;
+    nodesQueue.push(root);
+    // flag is used for taking directions, true means left to right
+    bool flag = true;
 
+    while(!nodesQueue.empty()){
+        int size = nodesQueue.size();
+        vector<int> row(size);
+
+        for(int i = 0; i < size; i++){
+            TreeNode* node = nodesQueue.front();
+            nodesQueue.pop();
+
+            int index = (flag) ? i :  (size - 1 - i);
+            
+            row[index] = node->val;
+
+            if(node->left)
+                nodesQueue.push(node->left);
+
+            if(node->right)
+                nodesQueue.push(node->right);
+        }
+
+        flag = !flag;
+        result.push_back(row);
+    }
+
+    return result;
 }
 
 // Helper Function to create a binary tree from a level-order input
