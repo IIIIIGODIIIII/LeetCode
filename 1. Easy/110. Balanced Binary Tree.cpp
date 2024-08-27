@@ -1,6 +1,6 @@
-#include<iostream>
-#include<bits/stdc++.h>
- 
+#include <iostream>
+#include <bits/stdc++.h>
+
 using namespace std;
 
 struct TreeNode{
@@ -14,40 +14,48 @@ struct TreeNode{
 
 TreeNode* createBinaryTree(const vector<int>& values);
 void printBinaryTree(TreeNode* root);
-int maxPathSum(TreeNode* root);
-int dfs(TreeNode* root, int &);
+bool isBalanced(TreeNode* root);
+int checkNode(TreeNode* root); 
 
-int main() {
-    vector<int> list = {1, 2, 3};
-    TreeNode* root = createBinaryTree(list);
-    int maxSum = maxPathSum(root);
-    cout << maxSum << endl;
+int main()
+{
+    vector<int> values = {3,9,20,-1,-1,15,7}; 
+    TreeNode* root = createBinaryTree(values);
+    bool res;
 
+    res = isBalanced(root);
+    cout<<res;
     return 0;
 }
 
-int maxPathSum(TreeNode* root){
-    int sum = INT_MIN;
-    dfs(root, sum);
-    return sum;
+bool isBalanced(TreeNode* root){
+    int height = checkNode(root);
+    if(height == -1)
+        return false;
+    else 
+        return true;
 }
 
-// Passing sum as a reference using & so that any changes made to maxi will update sum
-int dfs(TreeNode* root, int& maxi) {
+int checkNode(TreeNode* root){
     if (root == NULL)
             return 0;
-            
-    // max of 0 and leftSum or rightSum is taken to exclude the negative path from the path sum to get maximum path
-    int leftSum = max(0, dfs(root->left, maxi));
-    int rightSum = max(0, dfs(root->right, maxi));
 
-    maxi = max(maxi, leftSum + rightSum + root->val);
+        int lh = checkNode(root->left);
+        if(lh == -1)
+            return -1;
 
-    return root->val + max(leftSum, rightSum);
+        int rh = checkNode(root->right);
+        if(rh == -1)
+            return -1;
+
+        if (abs(lh - rh) > 1)
+            return -1;
+        
+        return 1 + max(lh, rh);
 }
 
 // Helper Function to create a binary tree from a level-order input
-TreeNode* createBinaryTree(const vector<int>& values) {
+TreeNode* createBinaryTree(const vector<int>& values){
     if (values.empty() || values[0] == -1) return nullptr;
 
     TreeNode* root = new TreeNode(values[0]);
@@ -73,7 +81,7 @@ TreeNode* createBinaryTree(const vector<int>& values) {
 }
 
 // Helper Function to print the binary tree in level order
-void printBinaryTree(TreeNode* root) {
+void printBinaryTree(TreeNode* root){
     if (!root) return;
     queue<TreeNode*> q;
     q.push(root);

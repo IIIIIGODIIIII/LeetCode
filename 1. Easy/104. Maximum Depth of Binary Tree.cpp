@@ -28,11 +28,14 @@ int main()
 }
 
 int maxDepth(TreeNode* root){
-    if(root == NULL)
-        return 0;
-    
+    if(root==NULL)
+            return 0;
+            
+    int lh = maxDepth(root->left);
+    int rh = maxDepth(root->right);
+
     // 1 + max(DFS(left sub-tree), DFS(right sub-tree))
-    return 1 + max(maxDepth(root->left), maxDepth(root->right));
+    return 1 + max(lh,rh);
 }
 
 // Helper Function to create a binary tree from a level-order input
