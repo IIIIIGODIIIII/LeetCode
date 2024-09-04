@@ -18,7 +18,7 @@ int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
     for (const auto& obstacle : obstacles)
         obstacles_set.insert({obstacle[0], obstacle[1]});
     
-    for (int command : commands) {
+    for (int command : commands){
         // Turn right
         if(command == -1) 
             index = (index + 1) % 4;
@@ -28,7 +28,7 @@ int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
             index = (index - 1) % 4; // Equivalent to (index - 1 + 4) % 4
         
         else{
-            for(int step = 0; step < command; step++) {
+            for(int step = 0; step < command; step++){
                 int nx = x + directions[index][0];
                 int ny = y + directions[index][1];
 
