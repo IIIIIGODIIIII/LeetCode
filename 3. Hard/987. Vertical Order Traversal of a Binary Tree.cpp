@@ -15,15 +15,15 @@ struct TreeNode{
 TreeNode* createBinaryTree(const vector<int>& values);
 void printBinaryTree(TreeNode* root);
 
-vector<vector<int>> zigzagLevelOrder(TreeNode* root);
+vector<vector<int>> verticalTraversal(TreeNode* root);
 
 int main()
 {
-    vector<int> list = {3,9,20,-1,-1,15,7};
+    vector<int> list = {1,2,3,4,5,6,7};
     TreeNode *root = createBinaryTree(list);
     vector<vector<int>> result;
 
-    result = zigzagLevelOrder(root);
+    result = verticalTraversal(root);
 
     for(const auto& innerVec : result){  
         for (int num : innerVec)    
@@ -31,43 +31,43 @@ int main()
         cout << endl;  
     }
 
-   return 0;
+    return 0;
 }
 
-vector<vector<int>> zigzagLevelOrder(TreeNode* root){
-    vector<vector<int>> result;
-    if(root==NULL)
-        return result;
-    
-    queue<TreeNode*> nodesQueue;
-    nodesQueue.push(root);
-    // flag is used for taking directions, true means left to right
-    bool flag = true;
+vector<vector<int>> verticalTraversal(TreeNode* root){
+    // A multiset is taken because a level can have nodes with same value as set will only take unique value
+    // vertical, level, multiple-nodes
+    map<int, map<int, multiset<int>>> nodes;
+    // node, vertical, level
+    queue<pair<TreeNode*, pair<int, int>>> todo;
+    todo.push({root, {0,0}});
 
-    while(!nodesQueue.empty()){
-        int size = nodesQueue.size();
-        vector<int> row(size);
+    while(!todo.empty()){
+        auto p = todo.front();
+        todo.pop();
+        TreeNode *node = p.first;
+        int x = p.second.first, y = p.second.second;
+        nodes[x][y].insert(node->val);
 
-        for(int i = 0; i < size; i++){
-            TreeNode* node = nodesQueue.front();
-            nodesQueue.pop();
-
-            int index = (flag) ? i :  (size - 1 - i);
+        // Left child means (x) vertical - 1, (y) level will always be incremented
+        if(node->left)
+            todo.push({node->left, {x - 1, y + 1}});
             
-            row[index] = node->val;
-
-            if(node->left)
-                nodesQueue.push(node->left);
-
-            if(node->right)
-                nodesQueue.push(node->right);
-        }
-
-        flag = !flag;
-        result.push_back(row);
+        // Right child means (x) vertical + 1, (y) level will always be incremented
+        if(node->right)
+            todo.push({node->right, {x + 1, y + 1}});
     }
 
-    return result;
+    vector<vector<int>> ans;
+    for(auto p : nodes){
+        vector<int> col;
+        for(auto q : p.second)
+            col.insert(col.end(), q.second.begin(), q.second.end());
+
+        ans.push_back(col);
+    }
+    
+    return ans;
 }
 
 // Helper Function to create a binary tree from a level-order input
