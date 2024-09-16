@@ -4,7 +4,7 @@
 using namespace std;
 
 vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries){
-    /*vector<int>fresult;
+    /*vector<int> fresult;
 
     for(auto query: queries){
         int res = arr[query[0]];
