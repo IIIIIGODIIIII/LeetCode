@@ -15,7 +15,6 @@ struct TreeNode{
 TreeNode* createBinaryTree(const vector<int>& values);
 void printBinaryTree(TreeNode* root);
 TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder);
-TreeNode* helper(vector<int>& inorder, vector<int>& postorder, unordered_map<int, int>& inorderIdx, int inStart, int inEnd, int postIdx);
 
 int main()
 {
@@ -28,26 +27,27 @@ int main()
     return 0;
 }
 
-TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder){
-    unordered_map<int, int> inorderIdx;
-        for (int i = 0; i < inorder.size(); ++i) {
-            inorderIdx[inorder[i]] = i;
-        }
-        return helper(inorder, postorder, inorderIdx, 0, inorder.size() - 1, postorder.size() - 1);
-}
+TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+    if (inorder.empty() || postorder.empty())
+        return NULL;
 
-TreeNode* helper(vector<int>& inorder, vector<int>& postorder, unordered_map<int, int>& inorderIdx, int inStart, int inEnd, int postIdx){
-        if (inStart > inEnd) {
-            return NULL;
-        }
+    TreeNode* root = new TreeNode(postorder.back());
+    postorder.pop_back();
 
-        TreeNode* root = new TreeNode(postorder[postIdx]);
-        int idx = inorderIdx[root->val];
+    auto index = find(inorder.begin(), inorder.end(), root->val);
+    int mid = distance(inorder.begin(), index);
 
-        root->right = helper(inorder, postorder, inorderIdx, idx + 1, inEnd, postIdx - 1);
-        root->left = helper(inorder, postorder, inorderIdx, inStart, idx - 1, postIdx - (inEnd - idx) - 1);
+    // Construct right subtree first since postorder processes right subtree before left subtree
+    vector<int> right_inorder(inorder.begin() + mid + 1, inorder.end());
+    vector<int> right_postorder(postorder.begin() + mid, postorder.end());
 
-        return root;
+    vector<int> left_inorder(inorder.begin(), inorder.begin() + mid);
+    vector<int> left_postorder(postorder.begin(), postorder.begin() + mid);
+
+    root->right = buildTree(right_inorder, right_postorder);
+    root->left = buildTree(left_inorder, left_postorder);
+
+    return root;
 }
 
 // Helper Function to create a binary tree from a level-order input
