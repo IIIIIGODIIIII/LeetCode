@@ -38,6 +38,10 @@ TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
     int mid = distance(inorder.begin(), index);
 
     // Construct right subtree first since postorder processes right subtree before left subtree
+
+    /*vector<int> nigger(a, b) initializes a vector of size a with the value b.
+    vector<int> vec(iterator1, iterator2) creates a vector by copying all elements from the range [iterator1, iterator2).*/
+    
     vector<int> right_inorder(inorder.begin() + mid + 1, inorder.end());
     vector<int> right_postorder(postorder.begin() + mid, postorder.end());
 
