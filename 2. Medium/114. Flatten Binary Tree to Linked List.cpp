@@ -14,39 +14,54 @@ struct TreeNode{
 
 TreeNode* createBinaryTree(const vector<int>& values);
 void printBinaryTree(TreeNode* root);
-void flatten(TreeNode* root);
-TreeNode* dfs(TreeNode* root);
+
+// Basic Approach 
+/*
+void flatten(TreeNode* root){
+    static TreeNode *prev = NULL; // To be used as a global variable
+
+    if(!root)
+            return;
+        
+        flatten(root->right);
+        flatten(root->left);
+
+        root->right = prev;
+        root->left = NULL;
+
+        prev = root;
+}*/
+
+// Using Morris Traversal
+void flatten(TreeNode *root){
+    TreeNode* curr = root;
+
+    while(curr != NULL){
+        if(curr->left != NULL){
+            TreeNode *prev = curr->left;
+
+            // Rightmost node of left-subtree
+            while(prev->right)
+                prev = prev->right;
+            
+            prev->right = curr->right;
+            curr->right = curr->left;
+            curr->left = NULL; // Set the left child to NULL
+        }
+        
+        curr = curr->right;
+    }
+}
 
 int main()
 {
     vector<int> list={1,2,5,3,4,-1,6};
     TreeNode* root = createBinaryTree(list);
+
     flatten(root);
     printBinaryTree(root);
    
    return 0;
-}
-
-void flatten(TreeNode* root){
-    dfs(root);
-}
-
-TreeNode* dfs(TreeNode* root){
-    if(root==NULL)
-        return NULL;
-
-    TreeNode *leftTail = dfs(root->left);
-    TreeNode *rightTail = dfs(root->right);
-
-    if(root->left != NULL){
-        leftTail->right = root->right;
-        root->right = root->left;
-        root->left = NULL;
-    }
-
-    TreeNode* last = rightTail? rightTail : (leftTail? leftTail : root);
-
-    return last;
 }
 
 // Helper Function to create a binary tree from a level-order input
