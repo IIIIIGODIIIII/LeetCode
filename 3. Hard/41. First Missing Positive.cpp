@@ -7,6 +7,7 @@ int firstMissingPositive(vector<int>& nums) {
     int n = nums.size();
 
     for(int i = 0; i < n; i++){
+        // ignore negative number, number not greater than size of string and if number is at n - 1 index
         while(nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]){
             swap(nums[nums[i] - 1], nums[i]);
         }

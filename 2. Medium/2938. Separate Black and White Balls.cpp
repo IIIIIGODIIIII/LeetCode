@@ -15,7 +15,6 @@ long long minimumSteps(string s) {
     }
 
     return res;
-    
 }
 
 int main() {
