@@ -1,6 +1,6 @@
 #include<iostream>
 #include<bits/stdc++.h>
- 
+
 using namespace std;
 
 struct TreeNode{
@@ -15,31 +15,52 @@ struct TreeNode{
 TreeNode* createBinaryTree(const vector<int>& values);
 void printBinaryTree(TreeNode* root);
 
-// Passing sum as a reference using & so that any changes made to maxi will update sum
-int dfs(TreeNode* root, int& maxi) {
-    if (root == NULL)
-            return 0;
-            
-    // max of 0 and leftSum or rightSum is taken to exclude the negative path from the path sum to get maximum path
-    int leftSum = max(0, dfs(root->left, maxi));
-    int rightSum = max(0, dfs(root->right, maxi));
+// Helper Function to calculate the height of the tree rooted at `root`.
+int height(TreeNode* root, unordered_map<int, int>& valToHeight) {
+    if (root == nullptr)
+        return 0;
 
-    maxi = max(maxi, leftSum + rightSum + root->val);
+    auto it = valToHeight.find(root->val);
+    if (it != valToHeight.cend())
+        return it->second;
 
-    return root->val + max(leftSum, rightSum);
+    return valToHeight[root->val] = (1 + max(height(root->left, valToHeight), height(root->right, valToHeight)));
 }
 
-int maxPathSum(TreeNode* root){
-    int sum = INT_MIN;
-    dfs(root, sum);
-    return sum;
+// Helper DFS Function
+void dfs(TreeNode* root, int depth, int maxHeight,
+         unordered_map<int, int>& valToMaxHeight, unordered_map<int, int>& valToHeight) {
+    if (root == nullptr)
+        return;
+
+    valToMaxHeight[root->val] = maxHeight;
+
+    dfs(root->left, depth + 1, max(maxHeight, depth + height(root->right, valToHeight)), valToMaxHeight, valToHeight);
+    dfs(root->right, depth + 1, max(maxHeight, depth + height(root->left, valToHeight)), valToMaxHeight, valToHeight);
+}
+
+// Main treeQueries function
+vector<int> treeQueries(TreeNode* root, vector<int>& queries) {
+    vector<int> ans;
+    unordered_map<int, int> valToMaxHeight;
+    unordered_map<int, int> valToHeight;
+
+    height(root, valToHeight);
+    dfs(root, 0, 0, valToMaxHeight, valToHeight);
+
+    for (const int query : queries)
+        ans.push_back(valToMaxHeight[query]);
+
+    return ans;
 }
 
 int main() {
-    vector<int> list = {1, 2, 3};
-    TreeNode* root = createBinaryTree(list);
-    int maxSum = maxPathSum(root);
-    cout << maxSum << endl;
+    vector<int> list = {5,8,9,2,1,3,7,4,6}, queries = {3,2,4,8};
+    TreeNode *root = createBinaryTree(list);
+
+    vector<int> result = treeQueries(root, queries);
+    for (auto it : result)
+        cout << it << " ";
 
     return 0;
 }
