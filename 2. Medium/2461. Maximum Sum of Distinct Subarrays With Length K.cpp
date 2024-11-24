@@ -27,7 +27,6 @@ long long maximumSubarraySum(vector<int>& nums, int k) {
             currSum -= nums[left];
             left += 1;
         }
-
     }
 
     return maxSum;
