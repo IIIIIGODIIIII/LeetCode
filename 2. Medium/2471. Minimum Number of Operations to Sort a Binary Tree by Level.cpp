@@ -1,6 +1,6 @@
 #include<iostream>
 #include<bits/stdc++.h>
-
+ 
 using namespace std;
 
 struct TreeNode{
@@ -15,70 +15,46 @@ struct TreeNode{
 TreeNode* createBinaryTree(const vector<int>& values);
 void printBinaryTree(TreeNode* root);
 
-TreeNode* replaceValueInTree(TreeNode* root) {
-    if (!root) 
-        return root;
+int minimumOperations(TreeNode* root) {
+    int ans = 0;
+    queue<TreeNode*> q{{root}};
 
-    // Step 1: Compute the level sums using BFS
-    vector<int> levelSums;  // This stores the sum of each level
-    queue<TreeNode*> q;
-    q.push(root);
-
+    // e.g. vals = [7, 6, 8, 5]
+    // [2, 1, 3, 0]: Initialize the ids based on the order of vals.
+    // [3, 1, 2, 0]: Swap 2 with 3, so 2 is in the right place (i == ids[i]).
+    // [0, 1, 2, 3]: Swap 3 with 0, so 3 is in the right place.
     while (!q.empty()) {
-        int levelSize = q.size();
-        int levelSum = 0;
+      vector<int> vals;
+      vector<int> ids(q.size());
 
-        for (int i = 0; i < levelSize; ++i) {
-            TreeNode* node = q.front();
-            q.pop();
-            levelSum += node->val;
+      for (int sz = q.size(); sz > 0; --sz) {
+        TreeNode* node = q.front();
+        q.pop();
+        vals.push_back(node->val);
 
-            if (node->left) q.push(node->left);
-            if (node->right) q.push(node->right);
-        }
-        levelSums.push_back(levelSum);
+        if (node->left != nullptr)
+          q.push(node->left);
+
+        if (node->right != nullptr)
+          q.push(node->right);
+      }
+
+      iota(ids.begin(), ids.end(), 0);
+      sort(ids.begin(), ids.end(), [&vals](int i, int j) { return vals[i] < vals[j]; });
+      
+      for (int i = 0; i < ids.size(); ++i)
+        for (; ids[i] != i; ++ans)
+          swap(ids[i], ids[ids[i]]);
     }
 
-    // Step 2: Replace each node's value with the sum of its level minus itself and its sibling
-    q.push(root);
-    int level = 0;
-
-    while (!q.empty()) {
-        int levelSize = q.size();
-
-        for (int i = 0; i < levelSize; ++i) {
-            TreeNode* node = q.front();
-            q.pop();
-
-            int siblingSum = 0;
-            if (node->left) siblingSum += node->left->val;
-            if (node->right) siblingSum += node->right->val;
-
-            // The new value for the node is the level sum minus its sibling sum
-            if (node->left) {
-                node->left->val = levelSums[level + 1] - siblingSum;
-                q.push(node->left);
-            }
-            if (node->right) {
-                node->right->val = levelSums[level + 1] - siblingSum;
-                q.push(node->right);
-            }
-        }
-        level++;
-    }
-
-    // Set the root node's value to 0 (as specified in the logic)
-    root->val = 0;
-
-    return root;
+    return ans;
 }
 
 int main() {
-    vector<int> list = {5,4,9,1,10,-1,7};
+    vector<int> list = {1,4,3,7,6,8,5,-1,-1,-1,-1,9,-1,10};
     TreeNode* root = createBinaryTree(list);
-
-    TreeNode *result = replaceValueInTree(root);
-    printBinaryTree(result);
+    
+    cout<<minimumOperations(root);
 
     return 0;
 }
