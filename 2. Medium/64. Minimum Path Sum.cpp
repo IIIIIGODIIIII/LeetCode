@@ -80,6 +80,7 @@ int minPathSum(vector<vector<int>>& grid) {
                 curr[j] = min(up, left);
             }
         }
+        
         prev = curr;
     }
 
