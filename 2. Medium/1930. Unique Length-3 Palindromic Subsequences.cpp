@@ -1,0 +1,30 @@
+#include<iostream>
+#include<bits/stdc++.h>
+ 
+using namespace std;
+
+int countPalindromicSubsequence(string s) {
+    int ans = 0;
+    vector<int> first(26, s.length());
+    vector<int> last(26);
+
+    for (int i = 0; i < s.length(); ++i) {
+      const int index = s[i] - 'a';
+      first[index] = min(first[index], i);
+      last[index] = i;
+    }
+
+    for (int i = 0; i < 26; ++i)
+      if (first[i] < last[i])
+        ans += unordered_set<int>(s.begin() + first[i] + 1, s.begin() + last[i]).size();
+
+    return ans;
+}
+
+int main() {
+    string s = "aabca";
+
+    cout<<countPalindromicSubsequence(s);
+
+    return 0;
+}
