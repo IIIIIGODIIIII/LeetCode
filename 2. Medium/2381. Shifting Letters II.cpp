@@ -26,7 +26,7 @@ string shiftingLetters(string s, vector<vector<int>>& shifts) {
 }
 
 int main() {
-    string s = "";
+    string s = "abc";
     vector<vector<int>> shifts = {{0,1,0},{1,2,1},{0,2,1}};
 
     cout<<shiftingLetters(s, shifts);
