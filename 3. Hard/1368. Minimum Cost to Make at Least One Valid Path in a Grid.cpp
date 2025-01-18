@@ -14,6 +14,7 @@ void dfs(const vector<vector<int>>& grid, int i, int j, int cost, queue<pair<int
     mem[i][j] = cost;
     q.emplace(i, j);
     const auto& dir = dirs[grid[i][j] - 1];
+    
     dfs(grid, i + dir[0], j + dir[1], cost, q, mem);
 }
 
