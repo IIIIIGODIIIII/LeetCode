@@ -1,0 +1,23 @@
+#include<iostream>
+#include<bits/stdc++.h>
+ 
+using namespace std;
+
+int tupleSameProduct(vector<int>& nums) {
+    int ans = 0;
+    unordered_map<int, int> count;
+
+    for (int i = 0; i < nums.size(); ++i)
+      for (int j = 0; j < i; ++j)
+        ans += count[nums[i] * nums[j]]++ * 8;
+
+    return ans;  
+}
+
+int main() {
+    vector<int> nums = {2,3,4,6};
+
+    cout<<tupleSameProduct(nums);
+
+    return 0;
+}
