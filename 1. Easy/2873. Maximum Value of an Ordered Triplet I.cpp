@@ -4,7 +4,7 @@
 using namespace std;
 
 long long maximumTripletValue(vector<int>& nums) {
-    long long maxVal = INT_MIN;
+    long long maxVal = 0;
 
     for(int i = 0; i < nums.size(); i++){
         for(int j = i + 1; j < nums.size(); j++){
