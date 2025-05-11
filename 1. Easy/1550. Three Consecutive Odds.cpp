@@ -22,7 +22,7 @@ bool threeConsecutiveOdds(vector<int>& arr) {
 }
 
 int main() {
-    vector<int> arr = {1,1,1};
+    vector<int> arr = {2,6,4,1};
 
     threeConsecutiveOdds(arr) ? cout<<"True" : cout<<"False";
 
