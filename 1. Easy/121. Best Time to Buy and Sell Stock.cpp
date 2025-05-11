@@ -1,28 +1,25 @@
 #include<iostream>
-#include<vector>
-#include<algorithm>
-
+#include<bits/stdc++.h>
+ 
 using namespace std;
 
-int main()
-{
+int maxProfit(vector<int>& prices) {
+    int min = INT_MAX, max = 0;
+
+    for(int i = 0; i < prices.size(); i++) {
+        if(prices[i] < min)
+            min = prices[i];
+        else 
+            max = std::max(max, prices[i] - min);
+    }
+
+    return max;
+}
+
+int main() {
     vector<int> prices = {7,1,5,3,6,4};
-    int maxP = 0, i = 0, j = 1, profit;
 
-    while(j < prices.size()){
-        if(prices[i] < prices[j]){
-            profit = prices[j] - prices[i];
-            maxP = max(maxP,profit);
-            j++;
-        }
-
-        else{ 
-            i = j;
-            j = j + 1;
-        }
-    }  
-
-    cout<<maxP;
+    cout<<maxProfit(prices);
 
     return 0;
 }
