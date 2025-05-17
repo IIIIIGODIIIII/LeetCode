@@ -4,21 +4,22 @@
 using namespace std;
 
 void sortColors(vector<int>& nums) {
+    // Dutch National Flag Problem
     int mid = 0, low = 0, high = nums.size() - 1;
 
-    while (mid <= high) {
-        if (nums[mid] == 0) {
-            swap(nums[mid], nums[low]);
-            low++;
-            mid++;
+    while(mid <= high) {
+        if(nums[mid] == 0) {
+            swap(nums[low], nums[mid]);
+            low += 1;
+            mid += 1;
         }
 
         else if (nums[mid] == 1)
-            mid++;
-
+            mid += 1;
+        
         else {
             swap(nums[mid], nums[high]);
-            high--;
+            high -= 1;
         }
     }
 }
