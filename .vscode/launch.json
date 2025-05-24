@@ -20,7 +20,8 @@
                 }
             ],
             "preLaunchTask": "g++ build active file",
-            "miDebuggerPath": "D:/MinGW/bin/gdb.exe",
+            "miDebuggerPath": "D:/MSYS2/ucrt64/bin/gdb.exe",
+            
             "logging": {
                 "trace": true,
                 "traceResponse": true,
