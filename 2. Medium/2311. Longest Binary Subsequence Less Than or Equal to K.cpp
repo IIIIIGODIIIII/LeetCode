@@ -1,0 +1,30 @@
+#include<iostream>
+#include<bits/stdc++.h>
+ 
+using namespace std;
+
+int longestSubsequence(string s, int k) {
+    int oneCount = 0;
+    int num = 0;
+    int pow = 1;
+
+    // Take as many 1s as possible from the right.
+    for (int i = s.length() - 1; i >= 0 && num + pow <= k; --i) {
+      if (s[i] == '1') {
+        ++oneCount;
+        num += pow;
+      }
+      pow *= 2;
+    }
+
+    return count(s.begin(), s.end(), '0') + oneCount;
+}
+
+int main() {
+    string s = "1001010";
+    int k = 5;
+    
+    cout<<longestSubsequence(s, k);
+
+    return 0;
+}
